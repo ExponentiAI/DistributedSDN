@@ -1,6 +1,15 @@
 # DistributedSDN
-These functional modules provide two key functions of our UbiFlow system: AP optimized allocation, and overlay structure. 
 
-In UbiFlow, assigntoAP can be added to Floodlight code as a built-in module. The method of adding a custom module can refer to the official Floodlight documentation: https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343513/How+to+Write+a+Module
+## 1.Introduction
+Here, we provide several functional modules in UbiFlow such as AP optimized allocation, overlay structure and flow collection.
 
-The overlay works on the application layer of each controller node, directly calling the northbound RESTful API provided by Floodlight.
+* The `flowcollection` provides the functions of collecting information of flowtables in the OpenFlow swithes in the SDN network. The flow entries in the flow table reflect current flow status of the IoT devices.
+* The `assignAP` provides the function of assigning the optimal AP to the mobile IoT device according to capacity of AP, profit and demand of IoT device.
+* The `overlay` provides the functions of eatablishing Chord ring, mobile handover when IoT moves in different areas, scalable controller when SDN controller node leaves(or breakdown) or joins the overlay network.  
+
+## 2.Implement
+The implementation details are summarized as follows:
+
+A multi-layer structure is adopted in the system prototype. In the data plane, there are several switchs, laptops, APs and IoT devices. For practical implementation using our code, the Cisco Linksys WRT1900AC WiFi router could be used to play the role of OpenFlow switch. It has an [OpenWrt](https://openwrt.org/docs/start) system and supports for customized firmware. The source code of the [Open vSwitch (OVS)](http://www.openvswitch.org/) needs to be downloaded to recompile the firmware of WRT1900AC to support the Southbound OpenFlow protocol. In addition, the interface configure files of WRT 1900AC are modified to make the IoT devices connect to it via OpenFlow. As WRT1900AC supports 2.4G and 5G WiFi, those WiFi interfaces are added to the OVS bridge to enable wireless access. Furthermore, heterogeneous AP based on the Linux kernel, and their functions can be expanded by software. For example, customized programs and scripts are deployed in AP to support encapsulating packets with radio access and spectrum information, and interacting with SDN controller or other network devices.
+ 
+In the control plane, [Floodlight](http://www.projectfloodlight.org/) is used as the SDN controller, which is an enterprise-class, open source SDN controller and provides many fundamental modules for managing the network. The users can adopt RESTful API to call modules built in Floodlight or deploy their own modules according to functional requirements quickly and flexibly. We add a customized module  `flowcollection` in Floodlight to collect all the flow table information in the OpenFlow switches connected to the SDN controller. These flow entries in the switches reflect current flow status of the IoT devices. For simple and flexible purposes, we deploy `overlay` program in application layer to call northbound API of controller instead of modules placed inside the controller. The `overlay` function can use the RESTful API to get mobility information of the IoT devices, and implement mobile handover. The optimized AP assignment algorithm `assignAP` is built in the controller as an internal application, because it needs to interact directly with the OpenFlow switch by using the OpenFlow plugin. The method of adding a custom module can refer to the official [Floodlight documentation](https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343513/How+to+Write+a+Module)
