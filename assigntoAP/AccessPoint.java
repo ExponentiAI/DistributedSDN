@@ -1,3 +1,4 @@
+package net.floodlightcontroller.assigntoAP;
 
 public class AccessPoint {
 	final int id;

@@ -1,3 +1,5 @@
+package net.floodlightcontroller.assigntoAP;
+
 import java.util.Comparator;
 
 public class Device implements Comparable<Device>{
