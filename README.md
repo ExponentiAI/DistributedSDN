@@ -3,6 +3,7 @@
 ## 1. Introduction
 Here, we provide several functional modules in UbiFlow such as AP optimized allocation, overlay structure and flow collection.
 
+* The `eastwestcommunication` provides the function of supporting Communication between controllers, by transferring and migrating traffic flows for mobile switching.
 * The `flowcollection` provides the functions of collecting information of flowtables in the OpenFlow swithes in the SDN network. The flow entries in the flow table reflect current flow status of the IoT devices.
 * The `assignAP` provides the function of assigning the optimal AP to the mobile IoT device according to capacity of AP, profit and demand of IoT device.
 * The `overlay` provides the functions of eatablishing Chord ring, mobile handover when IoT moves in different areas, scalable controller when SDN controller node leaves(or breakdown) or joins the overlay network.  
