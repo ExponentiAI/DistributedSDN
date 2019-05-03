@@ -7,6 +7,7 @@ Here, we provide several functional modules in UbiFlow such as AP optimized allo
 * The `flowcollection` provides the functions of collecting information of flowtables in the OpenFlow swithes in the SDN network. The flow entries in the flow table reflect current flow status of the IoT devices.
 * The `assignAP` provides the function of assigning the optimal AP to the mobile IoT device according to capacity of AP, profit and demand of IoT device.
 * The `overlay` provides the functions of eatablishing Chord ring, mobile handover when IoT moves in different areas, scalable controller when SDN controller node leaves(or breakdown) or joins the overlay network.  
+* The `networkcalculus` provides the functions of modeling the depart curve by depicting curve and service curve. The controller models the arrival curve through requesting the traffic from the switch ingress port at the edge of the network partition, and the service curve is customized according to the link rate. 
 
 ## 2. Implementation
 The implementation details are summarized as follows:
