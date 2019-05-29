@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/commons-lang.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/json_jar/json-lib-2.2.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/apachehttpclient/commons-codec-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/apachehttpclient/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/apachehttpclient/javax.ws.rs-api-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/apachehttpclient/jersey-apache-client-1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Desktop/RESTAPI/apachehttpclient/jersey-bundle-1.8.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
