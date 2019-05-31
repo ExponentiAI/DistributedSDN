@@ -7,6 +7,7 @@ import java.util.Map;
 public class Controller extends Thread{
 	
 	private String controllerId;
+	private int controllerMum;
 	private ChordNode chordnode;
 	private List<ChordKey> devices;
 	private SupervisedTable supervisedTable;
@@ -117,6 +118,14 @@ public class Controller extends Thread{
 
 	public void setControllerId(String controllerId) {
 		this.controllerId = controllerId;
+	}
+	
+	public int getControllerMum() {
+		return controllerMum;
+	}
+
+	public void setControllerMum(int controllerMum) {
+		this.controllerMum = controllerMum;
 	}
 
 	public ChordNode getChordnode() {
