@@ -65,7 +65,7 @@ public class SendPacketOutMessage {
 				Log.warn("sw is null");
 				continue;
 			}
-			if(sw.getId().getBytes().toString() == switchID.toString()){
+			if(sw.getId().getBytes().toString().equals(switchID.toString())){
 				fromSw = sw;
 				for( OFPort p : sw.getEnabledPortNumbers()){
 					if(p.getPortNumber() == portNum)
@@ -97,7 +97,10 @@ public class SendPacketOutMessage {
 		
 		//timestamp 可以在此添加解析流表的信息
 		StringBuilder sb = new StringBuilder(getCurrentTime());
-		sb.append("<>").append(fromSw.getId());
+		sb.append("<>").append(fromSw.getId())
+		.append("<>").append(GetIpAddress())
+		.append("<>").append(sourceIpAddress)
+		.append("<>").append("......");
 		
 		//数据包每层进行封装操作
 		String mess = new String(sb);
@@ -115,7 +118,7 @@ public class SendPacketOutMessage {
 		return df.format(new Date());
 	}
 	
-	public String GetIpAddress(){
+	public static String GetIpAddress(){
 		InetAddress ip = null;
 		try {
 			ip = InetAddress.getLocalHost();

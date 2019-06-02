@@ -54,7 +54,7 @@ public class EastWestCommunication implements IFloodlightModule,IOFMessageListen
 		case PACKET_IN:
 			Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
 			if(packetOutMessage.isDoingSendPacket(eth)){
-				DeelPacketIn ns = DeelPacketIn.getInstance();
+				DealPacketInMessage ns = DealPacketInMessage.getInstance();
 				ns.handlePacketIn(eth.getPayload());
 			}
 			break;
