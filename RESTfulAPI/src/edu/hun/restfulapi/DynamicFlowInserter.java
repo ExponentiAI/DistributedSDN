@@ -33,7 +33,8 @@ public class DynamicFlowInserter {
 		return flows;
 	}
 	/*
-	 * Add a flow
+	 * Adding a flow rule in the specified switches, 
+	 * generating a new flow entry through flow information and the specified switch forwarding port
 	 *  "switch":"00:00:00:00:00:00:00:01",
 	    "name":"flow_mod_1",
 	    "cookie":"0",
@@ -60,7 +61,10 @@ public class DynamicFlowInserter {
 		RestfulTool.addFlow(switchdpid, "flow_mod_" + in_port, "0", "100", in_port, eth_src, eth_dst, "0x0800", ipv4_src, ipv4_dst, "true", "output="+out_port);
 		RestfulTool.addFlow(switchdpid, "flow_mod_" + out_port, "0", "100", out_port, eth_dst, eth_src, "0x0800", ipv4_dst, ipv4_src, "true", "output="+in_port);
 	}
-	
+	/*
+	 * The flow table is sent in sequence according to 
+	 * the forwarding path node of the new network partition where the mobile terminal is located.
+	 */
 	public static void insertFlowByFwardingPath(List<ForwardingPathNode> forwardingpath, FlowRule flowrule){
 		for(int i = 0; i < forwardingpath.size(); i++){
 			addFlowByRules(flowrule, forwardingpath.get(i));
