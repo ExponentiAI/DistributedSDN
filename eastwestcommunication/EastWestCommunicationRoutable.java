@@ -10,16 +10,16 @@ public class EastWestCommunicationRoutable implements RestletRoutable {
 
 	@Override
 	public Restlet getRestlet(Context context) {
-		Router router = new Router();
-		router.attach("getinfo/json", EastWestCommunicationResource.class);
-		router.attach("postinfo/json", EastWestCommunicationResource.class);
-		// TODO Auto-generated method stub
-		return router;
+		Router router = new Router(context);
+        router.attach("/getinfo", EastWestCommunicationResource.class);
+        router.attach("/postinfo", EastWestCommunicationResource.class);
+        return router;
 	}
 
 	@Override
 	public String basePath() {
-		return "wm/eastwestcommunication";
-	}
 
+		return "/wm/eastwest";
+	}
+	
 }

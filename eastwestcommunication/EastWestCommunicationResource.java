@@ -5,17 +5,15 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
 public class EastWestCommunicationResource extends ServerResource{
-	
-	@Post("json")
-	public String postFlow(String user) {
-		
-		System.out.println("post:"+user);
-		return "post user";
+	@Get
+	public String getUser() {
+		System.out.println("get:");
+		return DealPacketInMessage.getList().toString();
 	}
 	
-	@Get("json")
-	public String getFlow(){
-		System.out.println("get:");
-		return "get info";
+	@Post("json")
+	public String addUser(String info) {
+		EastWestCommunication.getNmt().sendPacketOutMessage(info);
+		return "post flow info";
 	}
 }

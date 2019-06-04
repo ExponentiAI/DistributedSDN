@@ -1,5 +1,6 @@
 package net.floodlightcontroller.eastwestcommunication;
 
+import java.util.ArrayList;
 import net.floodlightcontroller.networkmeterlog.Log;
 import net.floodlightcontroller.packet.Data;
 import net.floodlightcontroller.packet.IPacket;
@@ -7,9 +8,10 @@ import net.floodlightcontroller.packet.IPv4;
 
 public class DealPacketInMessage {
 	protected static DealPacketInMessage ns;
-	public static byte[] switchID = {0x00,0x00,0x00,0x00,0x00,0x00};
 	public static String neighbourController = "10.0.0.1";
-
+	public static String localController = "10.0.0.2";
+	public static  ArrayList<String> list = new ArrayList<String>();
+	
 	public DealPacketInMessage(){
 	}
 
@@ -24,12 +26,25 @@ public class DealPacketInMessage {
 		IPv4 ip = (IPv4)iPacket;
 		Data data = (Data)ip.getPayload();
 		String mess[] = new String(data.getData()).split("<>");
-		if(mess.length !=4){
-			Log.error("length is not 4!");
+		if(mess.length != 6){
+			Log.error("length is not 6!");
 			return;
 		}
-		if(mess[1].equals(switchID) && mess[2].equals(neighbourController) && mess[3].equals(SendPacketOutMessage.GetIpAddress())){
-			
+		if(mess[3].equals(localController) && mess[4].equals(neighbourController)){
+			System.out.println("receive info from Post process：  " + mess[5]);
+			System.out.println(!list.contains(mess[5]));
+			if(!list.contains(mess[5] + "<>")){
+				list.add(mess[5] + "<>");
+			}	
 		}
 	}
+
+	public static ArrayList<String> getList() {
+		return list;
+	}
+
+	public static void setList(ArrayList<String> list) {
+		DealPacketInMessage.list = list;
+	}
+	
 }
