@@ -20,12 +20,14 @@ import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
 import net.floodlightcontroller.linkdiscovery.ILinkDiscoveryService;
 import net.floodlightcontroller.packet.Ethernet;
+import net.floodlightcontroller.restserver.IRestApiService;
 
 public class EastWestCommunication implements IFloodlightModule,IOFMessageListener{
 	
 	protected IFloodlightProviderService floodlightProvider;
+	private IRestApiService restApi;
 	
-	protected EastWestCommunicationThread nmt;
+	protected static EastWestCommunicationSengProcess nmt;
 	
 	protected IOFSwitchService  switchService;
 	protected ILinkDiscoveryService linkService;
@@ -49,11 +51,12 @@ public class EastWestCommunication implements IFloodlightModule,IOFMessageListen
 
 	@Override
 	public net.floodlightcontroller.core.IListener.Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx) {
-		System.out.println("receive packet in...");
+
 		switch(msg.getType()){
 		case PACKET_IN:
 			Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
 			if(packetOutMessage.isDoingSendPacket(eth)){
+				System.out.println("receive eastwestcomm packet in...");
 				DealPacketInMessage ns = DealPacketInMessage.getInstance();
 				ns.handlePacketIn(eth.getPayload());
 			}
@@ -78,6 +81,7 @@ public class EastWestCommunication implements IFloodlightModule,IOFMessageListen
 	public Collection<Class<? extends IFloodlightService>> getModuleDependencies() {
 		Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
 		l.add(IFloodlightProviderService.class);
+		l.add(IRestApiService.class);
 		return l;
 	}
 
@@ -86,15 +90,15 @@ public class EastWestCommunication implements IFloodlightModule,IOFMessageListen
 		floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
 		switchService = context.getServiceImpl(IOFSwitchService.class);
 		linkService = context.getServiceImpl(ILinkDiscoveryService.class);
+		restApi = context.getServiceImpl(IRestApiService.class);
 		this.packetOutMessage = new SendPacketOutMessage();
-
-		nmt = new EastWestCommunicationThread(this);
+		nmt = new EastWestCommunicationSengProcess(this);
 	}
 	
 	@Override
 	public void startUp(FloodlightModuleContext context) throws FloodlightModuleException {
 		floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
-		nmt.start();
+		restApi.addRestletRoutable(new EastWestCommunicationRoutable());
 	}
 	
 	public IOFSwitchService getSwitchService(){
@@ -108,4 +112,9 @@ public class EastWestCommunication implements IFloodlightModule,IOFMessageListen
 	public SendPacketOutMessage getPacketOutMessage() {
 		return packetOutMessage;
 	}
+
+	public static EastWestCommunicationSengProcess getNmt() {
+		return nmt;
+	}
+	
 }
