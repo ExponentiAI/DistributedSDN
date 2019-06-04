@@ -21,6 +21,7 @@ import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
 import net.floodlightcontroller.linkdiscovery.ILinkDiscoveryService;
 import net.floodlightcontroller.packet.Ethernet;
+import net.floodlightcontroller.restserver.IRestApiService;
 
 public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 	
@@ -30,6 +31,7 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 	
 	protected IOFSwitchService  switchService;
 	protected ILinkDiscoveryService linkService;
+	protected IRestApiService restApi;
 	//real work
 	protected SendPortRequest sendPortRequest;
 	
@@ -45,7 +47,7 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 
 	@Override
 	public boolean isCallbackOrderingPostreq(OFType type, String name) {
-		return (type.equals(OFType.PACKET_IN)&&(name.equals("linkdiscovery")));
+		return false;
 	}
 
 	@Override
@@ -53,8 +55,8 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 		System.out.println("receive packet in...");
 		switch(msg.getType()){
 		case PACKET_IN:
-			Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
-				NetworkStore ns = NetworkStore.getInstance();
+			Ethernet eth = IFloodlightProviderService.bcStore.get(cntx, IFloodlightProviderService.CONTEXT_PI_PAYLOAD);//pro
+			NetworkStore ns = NetworkStore.getInstance();//pro
 			break;
 		}
 		return net.floodlightcontroller.core.IListener.Command.CONTINUE;
@@ -76,6 +78,7 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 	public Collection<Class<? extends IFloodlightService>> getModuleDependencies() {
 		Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
 		l.add(IFloodlightProviderService.class);
+		l.add(IRestApiService.class);
 		return l;
 	}
 
@@ -84,6 +87,8 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 		floodlightProvider = context.getServiceImpl(IFloodlightProviderService.class);
 		switchService = context.getServiceImpl(IOFSwitchService.class);
 		linkService = context.getServiceImpl(ILinkDiscoveryService.class);
+		restApi = context.getServiceImpl(IRestApiService.class);
+		
 		this.sendPortRequest = new SendPortRequest();
 
 		nmt = new NetworkCalculusThread(this);
@@ -92,6 +97,8 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 	@Override
 	public void startUp(FloodlightModuleContext context) throws FloodlightModuleException {
 		floodlightProvider.addOFMessageListener(OFType.PACKET_IN, this);
+		restApi.addRestletRoutable(new NetworkCalculusWebRoutable());
+		
 		nmt.start();
 	}
 	
@@ -108,6 +115,7 @@ public class NetworkCalculus implements IFloodlightModule,IOFMessageListener{
 	}
 
 	public static void handlePortStatsReply(OFPortStatsReply reply,IOFSwitchBackend sw){
+		System.out.println("-----handleportstats-----");
 		NetworkStore ns = NetworkStore.getInstance();
 		ns.handlePortStatsReply(reply, sw);
 	}

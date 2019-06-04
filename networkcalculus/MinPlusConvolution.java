@@ -17,19 +17,29 @@ public class MinPlusConvolution {
 	static final double b3= 3.58;
 	static final double t3= 2;
 	
+	static final double b4= 800.0;
+	static final double t4= 2.0;
+	
+	static final double b5= 863.0;
+	static final double t5= 2.0;
+	
+	static final double b6= 250000.0;
+	static final double t6= 1.0;
+	
+	
 	public static double Arrival(int x){
 		return NetworkStore.arriveCurve.get(x);
 	}
 	
 	public static double Server(int x){
-		double y = b3*(x - t3);
+		double y = b6*(x - t6);
 		if(y <= 0)
 			return 0;
 		return y;
 	}
-	
+	//最小加卷积
 	public  double minPlusConvolution(int  t){
-		double min = 100000.0;
+		double min = 9999999999.0;
 		for(int i = 0; i <=t; i++){
 			double Z = Arrival(i) + Server(t-i);
 			if(Z <= min){
@@ -39,15 +49,18 @@ public class MinPlusConvolution {
 		return min;
 	}
 	
-	//测试
-	public static void main(String[] args) {
-		MinPlusConvolution mpc = new MinPlusConvolution();
-		double r = mpc.minPlusConvolution(60);	
-//		for(int i = 0; i <r.length; i++){
-//			System.out.println(i + " : " + r[i]);
-//		}	
-		for(int i = 0; i < 60; i++){
-			System.out.println(i + ":" +Server(i));
-		}
-	}
+//	public void changeService(boolean flag) {
+//			
+//	}
+	
+//	public static void main(String[] args) {
+//		MinPlusConvolution mpc = new MinPlusConvolution();
+//		double r = mpc.minPlusConvolution(60);	
+////		for(int i = 0; i <r.length; i++){
+////			System.out.println(i + " : " + r[i]);
+////		}	
+//		for(int i = 0; i < 60; i++){
+//			System.out.println(i + ":" +Server(i));
+//		}
+//	}
 }

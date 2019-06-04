@@ -8,7 +8,7 @@ import net.floodlightcontroller.networkmeterlog.Log;
 public class NetworkCalculusThread extends Thread {
 	
 	protected NetworkCalculus nm;
-	public static byte[] switchID = {0x00,0x00,0x00,0x00,0x00,0x00};
+	public static String switchID = "00:00:00:00:00:00:00:01";
 	
 	public NetworkCalculusThread(NetworkCalculus nm){
 		this.nm=nm;
@@ -16,7 +16,7 @@ public class NetworkCalculusThread extends Thread {
 	
 	public void run(){
 		while(true){
-			System.out.println("start thread...");
+//			System.out.println("start networkcalculus thread...");
 			try {
 				sleep(1000);
 			} catch (InterruptedException e) {
@@ -31,7 +31,8 @@ public class NetworkCalculusThread extends Thread {
 					Log.warn("sw is null");
 					continue;
 				}
-				if(sw.getId().getBytes().toString() == switchID.toString()){
+//				System.out.println("switch： " + sw.getId().toString().equals(switchID));
+				if(sw.getId().toString().equals(switchID)){
 					nm.sendPortRequest.doSendPortRequest(sw);
 				}
 			}
