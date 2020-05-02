@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0019)http://192.168.0.1/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>﻿登录</title>
+    <script src="authenticate/jquery-3.4.1.min.js"></script>
+    <script src="authenticate/md5.js"></script>
+    <script type="text/javascript">
+        function login(){
+            var g = 2;
+			var p = 10001;
+            var Xmd = $("#Xmd").val();
+            if(Xmd.trim()==""){
+            	alert("please enter the password!")
+            	return
+            }
+            debugger
+            var Ymd = Math.pow(g,Xmd);
+			var kk = hex_md5(Ymd % p);
+            alert(kk)
+            $.ajax({
+                url:"/sdn/authenticate",
+                type:"get",
+                dataType:"json",
+                data:{
+                    kk:kk
+                },
+                success:function(data){
+                    if(data.code==1){
+                        var fso = new  ActiveXObject(Scripting.FileSystemObject);
+						var f = fso.createtextfile("/Users/lazyking/key", 2, true);
+						f.writeLine(Ymd);
+                    }else{
+						alert('Login Failed!');
+                    }
+                }
+                }
+            )
+        }
+    </script>
+	<meta name="MobileOptimized" content="240">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes">
+	<link rel="shortcut Icon" href="http://192.168.0.1/web-static/images/icon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="authenticate/class.css">
+	<script type="text/javascript" src="authenticate/class.js"></script>
+<script type="text/javascript" src="authenticate/json.js"></script><script type="text/javascript" src="authenticate/jquery-1.10.1.js"></script><script type="text/javascript" src="authenticate/ajax.js"></script><script type="text/javascript" src="authenticate/uci.js"></script><script type="text/javascript" src="authenticate/str.js"></script><script type="text/javascript" src="authenticate/error.js"></script><script type="text/javascript" src="authenticate/verify.js"></script><script type="text/javascript" src="authenticate/macFactory.js"></script><link rel="stylesheet" href="authenticate/DataGrid.css"><script type="text/javascript" src="authenticate/DataGrid.js"></script><script type="text/javascript" src="authenticate/menu.js"></script></head>
+<body style="height: auto;">
+	<div id="Error" style="top: -9999px; visibility: hidden; display: none;"></div>
+	<div id="Confirm" style="top: -9999px; visibility: hidden; display: none;"></div>
+	<div id="Con" style="display: none;"></div>
+	<div id="Help" style="display: none;"></div>
+	<div id="Cover" style="display: none; visibility: hidden;"></div>
+	<div id="Login" style="display: block;"><div class="logo">
+	<label class="proName" id="prName" style="font-size:25px;">OpenWRT-1900ACS</label>
+	<img src="authenticate/cloudF.png" class="loginBgF">
+</div>
+<div class="lgCon">
+	<ul class="lg">
+		<li class="lgTitle">登录密码</li>
+		<li class="lgInput">
+			<ul class="lgPwd">
+				<li id="inputPwd" class="inputPwd">
+					<label class="pwd" for="lgPwd">密码</label>
+					<input id="Xmd" name="password" type="password" maxlength="32">
+					
+				</li>
+				<li class="pwdNote" id="lgPwdNote">
+					<i class="tip"></i>
+					<label id="loginError" style="line-height: 16px;"></label>
+				</li>
+			</ul>
+		</li>
+		<li class="lgBtn">
+			<input type="button" class="subBtn" id="loginSub" value="确    定" onclick="login()">
+		</li>
+		<li class="loginHelp">
+			<div id="loginFeg">
+				<i class=""></i>
+			</div>
+		</li>
+	</ul>
+	<img src="authenticate/cloudF.png" class="loginBgS">
+	<img src="authenticate/cloudS.png" class="loginBgT">
+	<img src="authenticate/cloudS.png" class="loginBgFi">
+	<img src="authenticate/cloudS.png" class="loginBgSi">
+</div><style type="text/css">body{background-position:1688px 535px;background-size:66px 32px;background-color:#5e85c0;background-image:url(authenticate/cloudF.png);background-repeat:no-repeat;font-size:12px;height:100%}div.logo{width:980px;height:60px;margin:0 auto;position:relative}div.lgCon{width:980px;margin:0 auto;position:relative}div.lgCon ul.lg{font-size:0;margin:125px 0 0 340px;list-style:none;width:485px}li.lgTitle{color:#fff;font-size:24px;font-weight:bold;margin-bottom:35px}li.lgInput{margin-bottom:25px}ul.lgPwd{font-size:0;height:35px;position:relative;list-style:none;*zoom:1}ul.lgPwd li.inputPwd{background:#fff;border-radius:3px;float:left;font-size:0;height:35px;line-height:35px;overflow:hidden;width:300px}li.inputPwd label.pwd{border-right:1px solid #5e85bf;color:#3c3e43;display:inline-block;font-size:14px;line-height:35px;text-align:center;vertical-align:top;width:46px}@media screen and (-webkit-min-device-pixel-ratio:0){li.inputPwd input{line-height:0!important}}li.inputPwd input{background:#fff;border:0;font-size:12px;height:35px;*height:34px;line-height:35px;*line-height:34px;margin-left:9px;padding:0;vertical-align:top;width:230px}ul.lgPwd li.pwdNote{float:left;height:35px;line-height:35px;visibility:hidden;width:180px}#pwdTipStr{background:#fff;color:#a6a6a6;height:30px;*line-height:34px;font-size:12px;left:56px;position:absolute;top:1px}i.tip{display:inline-block;height:13px;margin-left:7px;vertical-align:middle;width:13px}#loginError{color:#fff;font-size:12px;line-height:16px;margin-left:7px;vertical-align:middle;display:inline-block}li.lgBtn{margin-bottom:8px}li.lgBtn input{font-size:14px;padding-top:6px;padding-bottom:6px;*padding-top:5px;*padding-bottom:3px;width:300px}li.loginHelp{font-size:12px;margin-bottom:55px}span.loginHelp{color:#fff;cursor:pointer;text-decoration:underline}#loginFeg{background:#4a6ca0;border-radius:3px;color:white;margin-top:13px;position:relative;visibility:hidden;width:300px}#loginFeg p{line-height:20px;padding:12px;text-indent:0;word-break:break-all;word-wrap:break-word}#loginFeg i{height:0;line-height:0;width:0;top:-9px;left:15px;position:absolute;border-style:solid;border-color:#5e85bf #5E85Bf #4a6ca0 #5E85BF;border-width:0 9px 9px 9px}#Cover p{padding:0;text-align:center;color:#fff;font-weight:bold;font-size:16px}img.loginBgF{height:41px;position:absolute;top:45px;right:-92px;width:92px}img.loginBgS{position:absolute;top:95px;left:-63px;height:32px;width:66px}img.loginBgT{position:absolute;height:57px;width:136px;top:105px;left:0}img.loginBgFi{position:absolute;top:250px;right:30px;height:40px;width:94px}img.loginBgSi{position:absolute;top:460px;left:190px;height:40px;width:94px}label.proName{font-size:12px;color:#fff;top:21px;right:10px;position:absolute}</style></div>
+
+
+</body></html>

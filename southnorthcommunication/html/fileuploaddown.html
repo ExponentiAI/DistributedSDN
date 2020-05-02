@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- saved from url=(0019)http://192.168.0.1/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="authenticate/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<form id="uploadForm" enctype="multipart/form-data">
+    文件:<input id="file" type="file" name="file"/>
+</form>
+<button id="upload">上传文件</button>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#upload").click(function () {
+            var formData = document.getElementById("uploadForm").files[0];
+
+            var formFile = new FormData();
+            formFile.append("action", "UploadVMKImagePath");
+            formFile.append("file", formData); //加入文件对象
+            $.ajax({
+                type: "post",
+                url: "/file/uploaddown",
+                data: formFile,
+                datatype: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("上传成功")
+                    alert(data);
+                },
+                error: function () {
+                    alert("上传失败");
+                }
+            });
+        })
+
+</script>
+</html>
